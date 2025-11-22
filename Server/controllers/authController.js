@@ -17,8 +17,10 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({success : false, message : "Minimum length for password : 6"});
 
         const existingUser = await User.findOne({ username });
-        if (existingUser)
-            return res.status(409).json({ success: false, message: "Username already exists" });
+        if (existingUser){
+            res.status(409).json({ success: false, message: "Username already exists" });
+            return;
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -33,7 +35,7 @@ export const registerUser = async (req, res) => {
                 success: true,
                 message: "User created successfully",
                 token,
-                data: {
+                user : {
                     username: createdUser.username,
                     userId: createdUser._id
                 }
@@ -63,11 +65,12 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ success: false, message: "Invalid password" });
 
         const token = generateToken(res, user._id);
+        // console.log(token);
         res.status(200).json({
             success: true,
             message: "User logged in successfully",
             token,
-            data: {
+            user : {
                 username: user.username,
                 userId: user._id
             }
@@ -87,7 +90,7 @@ export const getUserDetails = async (req, res) => {
             res.status(200).json({
                 success: true,
                 message: "User details fetched successfully",
-                data: {
+                user : {
                     username: user.username,
                     userId: user._id
                 }

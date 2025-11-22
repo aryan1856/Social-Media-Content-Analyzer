@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Lock, User } from 'lucide-react';
+import {UseAuthContext} from '../context/authContext';
+import useLogin from '../hooks/useLogin.js';
 
 const Login = ({setIsLogin}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const {setAuth} = UseAuthContext();
+  const {loading, login} = useLogin();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login submitted:', { username, password });
+    await login(username, password);
   };
 
   return (
@@ -84,6 +88,7 @@ const Login = ({setIsLogin}) => {
             {/* Submit Button */}
             <button
               type='submit'
+              disabled={loading}
               className='w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all duration-200 hover:cursor-pointer'
             >
               Sign In

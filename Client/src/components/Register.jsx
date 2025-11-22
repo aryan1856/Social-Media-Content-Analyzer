@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Lock, User, Mail } from 'lucide-react';
+import useRegister from '../hooks/useResister';
 
 const Register = ({ setIsLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const {loading, register} = useRegister();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-    console.log('Register submitted:', { username, email, password });
+    await register(username, password, confirmPassword);
   };
 
   return (
@@ -122,6 +119,7 @@ const Register = ({ setIsLogin }) => {
 
             {/* Submit Button */}
             <button
+              disabled={loading}
               type='submit'
               className='w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all duration-200 hover:cursor-pointer'
             >

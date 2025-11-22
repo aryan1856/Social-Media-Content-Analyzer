@@ -34,20 +34,40 @@ export const createInsight = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      insight,
+      data : insight,
+      message : "Insights generated successfully"
     });
   } catch (error) {
     console.error("Insight creation error:", error);
     return res.status(500).json({
       success: false,
-      error: error.message || "Server error",
+      message : error.message || "Internal server error"
     });
   }
 };
 
+// dummy for now, will integrate API for analysis and generating recommendations
 async function generateRecommendations(text) {
   return [
     "This is a sample recommendation based on extracted text.",
     "You can integrate Gemini / OpenAI later for real suggestions.",
   ];
+}
+
+export const getInsightsOfUser = async (req, res) => {
+    try {
+        const id = req.user._id;
+        const user = await User.findById({_id : id});
+        if(user){
+            const insights = await Insight.find({userId : id});
+            res.status(200).json({
+                success : true,
+                message : "Insights fetched successfully",
+                data : insights
+            })
+        }
+    } catch (error) {
+        console.log(`Error getting user insights ${error}`);
+        res.status(500).json({success : false, message : error.message});
+    }
 }

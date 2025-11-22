@@ -6,4 +6,4 @@ cloudinary.config({
     api_secret: process.env.CLOUD_SECRET
 });
 
-export {cloudinary, getFileUrl};
+export {cloudinary};

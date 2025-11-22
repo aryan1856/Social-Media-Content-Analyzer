@@ -1,153 +1,7 @@
 import React, { useState } from 'react';
-import { Upload, FileText, Image, X, Sparkles, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
-import useFileAnalysis from '../hooks/useAnalyzeFile.js';
-
-// Results Display Component
-const AnalysisResults = ({ result, onClose }) => {
-  const recommendations = result.recommendations;
-
-  return (
-    <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-          <CheckCircle className="text-green-500" size={28} />
-          Analysis Complete
-        </h3>
-        <button
-          onClick={onClose}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <X className="text-gray-500" size={24} />
-        </button>
-      </div>
-
-      {/* Overall Score */}
-      <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl">
-        <div className="flex items-center justify-between">
-          <span className="text-lg font-semibold text-gray-700">Overall Score</span>
-          <span className="text-3xl font-bold text-indigo-600">
-            {recommendations.overallScore}/100
-          </span>
-        </div>
-        <div className="mt-2 h-3 bg-gray-200 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-purple-500 to-indigo-600 transition-all duration-1000"
-            style={{ width: `${recommendations.overallScore}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Summary */}
-      <div className="mb-6">
-        <h4 className="text-lg font-semibold text-gray-800 mb-2">Summary</h4>
-        <p className="text-gray-600 bg-gray-50 p-4 rounded-lg">
-          {recommendations.summary}
-        </p>
-      </div>
-
-      {/* Strengths & Weaknesses Grid */}
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <h4 className="text-lg font-semibold text-green-700 mb-3">Strengths</h4>
-          <ul className="space-y-2">
-            {recommendations.strengths.map((strength, index) => (
-              <li key={index} className="flex items-start gap-2 text-gray-700">
-                <span className="text-green-500 mt-1">✓</span>
-                <span>{strength}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-lg font-semibold text-red-700 mb-3">Weaknesses</h4>
-          <ul className="space-y-2">
-            {recommendations.weaknesses.map((weakness, index) => (
-              <li key={index} className="flex items-start gap-2 text-gray-700">
-                <span className="text-red-500 mt-1">✗</span>
-                <span>{weakness}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Recommendations */}
-      <div className="mb-6">
-        <h4 className="text-lg font-semibold text-gray-800 mb-3">Recommendations</h4>
-        <ul className="space-y-2">
-          {recommendations.recommendations.map((rec, index) => (
-            <li key={index} className="flex items-start gap-2 p-3 bg-blue-50 rounded-lg">
-              <span className="text-blue-600 font-bold">{index + 1}.</span>
-              <span className="text-gray-700">{rec}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Additional Sections */}
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <h4 className="text-lg font-semibold text-gray-800 mb-3">Engagement Tips</h4>
-          <ul className="space-y-2">
-            {recommendations.engagementTips.map((tip, index) => (
-              <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
-                <span className="text-purple-500">•</span>
-                <span>{tip}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-lg font-semibold text-gray-800 mb-3">SEO Suggestions</h4>
-          <ul className="space-y-2">
-            {recommendations.seoSuggestions.map((seo, index) => (
-              <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
-                <span className="text-indigo-500">•</span>
-                <span>{seo}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Readability & Tone */}
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <h4 className="text-lg font-semibold text-gray-800 mb-3">Readability</h4>
-          <ul className="space-y-2">
-            {recommendations.readability.map((item, index) => (
-              <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
-                <span className="text-orange-500">•</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-lg font-semibold text-gray-800 mb-3">Tone & Clarity</h4>
-          <ul className="space-y-2">
-            {recommendations.toneAndClarity.map((item, index) => (
-              <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
-                <span className="text-teal-500">•</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Suggested Rewrite */}
-      {recommendations.suggestedRewrite && (
-        <div>
-          <h4 className="text-lg font-semibold text-gray-800 mb-3">Suggested Rewrite</h4>
-          <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
-            <p className="text-gray-700 italic">{recommendations.suggestedRewrite}</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+import { Upload, FileText, Image, X, Sparkles, Loader2, AlertCircle } from 'lucide-react';
+import useFileAnalysis from '../hooks/useAnalyzeFile';
+import AnalysisResults from '../components/AnalysisResults';
 
 // Main Home Component
 const Home = () => {
@@ -197,10 +51,8 @@ const Home = () => {
     
     try {
       await analyzeFiles(files);
-      // Success - result will be available in the hook's result state
     } catch (err) {
       console.error('Analysis failed:', err);
-      // Error will be available in the hook's error state
     }
   };
 

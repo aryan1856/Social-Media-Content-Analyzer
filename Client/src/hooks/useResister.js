@@ -31,7 +31,6 @@ const useRegister = () => {
       localStorage.setItem("curr-user", res.data.user.username);
       localStorage.setItem("token", res.data.token);
 
-      // FIXED
       setAuth(res.data.user);
 
       toast.success("User registered successfully");

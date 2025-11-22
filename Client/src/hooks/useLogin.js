@@ -17,7 +17,7 @@ const useLogin = () => {
             const base = import.meta.env.VITE_BACKEND_URL;
             const reqAPI = import.meta.env.VITE_AUTH_BASE_URL;
             const res = await axios.post(`${base}${reqAPI}/login`, {username, password});
-            console.log(res);
+            // console.log(res);
             if(!res.data.success){
                 toast.error(res.data.message);
                 return;

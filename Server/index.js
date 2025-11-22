@@ -2,12 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+dotenv.config();
 import connectDB from './utils/db_config.js';
 import authRoutes from './routes/authRoutes.js';
 import insightRoutes from './routes/insightRoutes.js';
 import cloudinary from 'cloudinary';
 
-dotenv.config();
 connectDB();
 
 const app = express();

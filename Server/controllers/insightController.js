@@ -1,6 +1,7 @@
 import Insight from "../models/insight.js";
 import User from "../models/user.js";
 import extractText from "../utils/extract_text.js";
+import { generateRecommendations } from "../utils/recommendations.js";
 
 export const createInsight = async (req, res) => {
   try {
@@ -45,14 +46,6 @@ export const createInsight = async (req, res) => {
     });
   }
 };
-
-// dummy for now, will integrate API for analysis and generating recommendations
-async function generateRecommendations(text) {
-  return [
-    "This is a sample recommendation based on extracted text.",
-    "You can integrate Gemini / OpenAI later for real suggestions.",
-  ];
-}
 
 export const getInsightsOfUser = async (req, res) => {
     try {

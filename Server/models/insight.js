@@ -18,8 +18,8 @@ const insightSchema = new mongoose.Schema({
     },
 
     recommendations: {
-        type: [String],
-        default: []
+        type : Object,
+        default : {}
     }
 }, { timestamps: true });
 

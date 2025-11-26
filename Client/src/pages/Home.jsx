@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { Upload, FileText, Image, X, Sparkles, Loader2, AlertCircle } from 'lucide-react';
 import useFileAnalysis from '../hooks/useAnalyzeFile';
 import AnalysisResults from '../components/AnalysisResults';
+import Header from '../components/Header';
+import {UseAuthContext} from '../context/authContext.jsx';
+import useLogout from '../hooks/useLogout.js';
 
 // Main Home Component
 const Home = () => {
   const [files, setFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
+  const {auth} = UseAuthContext();
+  const {logout} = useLogout();
   
   // Use the custom hook
   const { analyzeFiles, loading, error, result, reset } = useFileAnalysis();
@@ -76,8 +81,15 @@ const Home = () => {
     return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   };
 
+  const handleLogout = () => {
+      // e.preventDefault();
+      logout();
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8">
+      <Header username={auth.username} onLogout={handleLogout}/>
+      <br/><br/>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">

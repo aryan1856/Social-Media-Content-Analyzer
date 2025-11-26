@@ -3,29 +3,30 @@ import toast from "react-hot-toast";
 import axios from 'axios';
 import { UseAuthContext } from '../context/authContext';
 
-const useLogin = () => {
+const useLogout = () => {
     const [loading, setLoading] = useState(false);
     const {setAuth} = UseAuthContext();
 
-    const login = async (username, password) => {
-        if(!username || !password){
-            toast.error("All fields are required");
-            return;
-        }
+    const logout = async () => {
         setLoading(true);
         try {
             const base = import.meta.env.VITE_BACKEND_URL;
             const reqAPI = import.meta.env.VITE_AUTH_BASE_URL;
-            const res = await axios.post(`${base}${reqAPI}/login`, {username, password});
-            // console.log(res);
+            const res = await axios.post(`${base}${reqAPI}/logout`, {}, {
+                headers : {
+                    Authorization : `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            
             if(!res.data.success){
                 toast.error(res.data.message);
                 return;
             }
-            localStorage.setItem('curr-user', res.data.user.username);
-            localStorage.setItem('token', res.data.token);
-            setAuth(res.data.user);
-            toast.success("Login Successfull");
+            
+            localStorage.removeItem('curr-user');
+            localStorage.removeItem('token');
+            setAuth(null);
+            toast.success("Logout Successful");
         } catch (error) {
             const errorMessage = error.response?.data?.message || error.message;
             toast.error(errorMessage);
@@ -33,7 +34,7 @@ const useLogin = () => {
             setLoading(false);
         }
     }
-    return {loading, login};
+    return {loading, logout};
 }
 
-export default useLogin;
+export default useLogout;
